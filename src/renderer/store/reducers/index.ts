@@ -1,8 +1,10 @@
 import {combineReducers} from "redux";
 import {project} from "./project";
+import {router} from "./router";
 
 
 
 export default combineReducers({
-    project: project
+    project: project,
+    router: router
 })

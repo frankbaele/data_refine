@@ -1,19 +1,17 @@
-import {store} from "../store";
+
 import React from 'react'
-function createProject() {
-    console.log('tes')
-    store.dispatch({
-        type: 'project.create',
-        payload: {
-            name: 'test'
-        }
-    })
-}
+import {NavLink} from "react-router-dom";
+
 const App = () => {
     return (
-        <h1>
-            <button onClick={createProject}>Add project</button>
-        </h1>
+        <div>
+            <h1>
+                Data refiner
+                <NavLink to="/project/create" activeClassName="selected">
+                    To project create
+                </NavLink>
+            </h1>
+        </div>
     )
 }
 export default App

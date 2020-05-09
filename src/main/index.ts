@@ -1,10 +1,11 @@
 'use strict'
 
-import {app, BrowserWindow} from 'electron'
+import {app, BrowserWindow, Menu} from 'electron'
 import * as path from 'path'
 import {format as formatUrl} from 'url'
 import "./store";
 import {init} from "./database";
+import {store} from "./store";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -41,6 +42,25 @@ function createMainWindow() {
         })
     })
 
+    var menu = Menu.buildFromTemplate([
+        {
+            label: 'Menu',
+            submenu: [
+                {
+                    label:'Create project',
+                    click:()=>{
+                        store.dispatch({
+                            type:'router.push',
+                            payload:{
+                                destination: '/project/create'
+                            }
+                        })
+                    }
+                },
+            ]
+        }
+    ])
+    Menu.setApplicationMenu(menu);
     return window
 }
 
