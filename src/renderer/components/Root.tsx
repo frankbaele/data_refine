@@ -5,6 +5,7 @@ import {Provider} from "react-redux";
 import {store} from "../store";
 import Create from "./project/Create";
 import history from '../lib/history'
+
 const Root = () => (
     <Provider store={store}>
         <div>

@@ -3,15 +3,13 @@
 import {app, BrowserWindow, Menu} from 'electron'
 import * as path from 'path'
 import {format as formatUrl} from 'url'
-import "./store";
 import {init} from "./database";
-import {store} from "./store";
-
+import {listen} from './listeners/index';
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
-// @ts-ignore
-let mainWindow
+
+let mainWindow: BrowserWindow;
 app.allowRendererProcessReuse = true;
 
 function createMainWindow() {
@@ -31,10 +29,6 @@ function createMainWindow() {
         }))
     }
 
-    window.on('closed', () => {
-        mainWindow = null
-    })
-
     window.webContents.on('devtools-opened', () => {
         window.focus()
         setImmediate(() => {
@@ -49,12 +43,7 @@ function createMainWindow() {
                 {
                     label:'Create project',
                     click:()=>{
-                        store.dispatch({
-                            type:'router.push',
-                            payload:{
-                                destination: '/project/create'
-                            }
-                        })
+                        goToRoute('/project/create');
                     }
                 },
             ]
@@ -63,7 +52,12 @@ function createMainWindow() {
     Menu.setApplicationMenu(menu);
     return window
 }
-
+function goToRoute(url: string){
+    mainWindow.webContents.send('store',{
+        type:'router.push',
+        payload:url
+    })
+}
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
     // on macOS it is common for applications to stay open until the user explicitly quits
@@ -83,5 +77,6 @@ app.on('activate', async() => {
 // create main BrowserWindow when electron is ready
 app.on('ready', async () => {
     await init();
-    mainWindow = createMainWindow()
+    mainWindow = createMainWindow();
+    listen(mainWindow);
 })

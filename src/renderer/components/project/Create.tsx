@@ -1,20 +1,41 @@
+import React, {Fragment, useEffect} from "react";
+import {ipcRenderer} from "electron";
+import {connect} from "react-redux";
 import {store} from "../../store";
-import React from "react";
 
 function createProject() {
-    console.log('tes')
-    store.dispatch({
-        type: 'project.create',
+    ipcRenderer.send('project', {
+        type: 'create',
         payload: {
             name: 'test'
         }
     })
 }
-const Create = () => {
+
+const Create = ({projects}) => {
+    useEffect(() => {
+        ipcRenderer.send('projects', {
+            type: 'load',
+            payload: {}
+        })
+    }, []);
+    let list;
+    if (Array.isArray(projects)) {
+        list = projects.map((project) =>
+            <li key={project.id}>{project.name}</li>
+        );
+    }
     return (
-        <h1>
+        <div>
+            <div>{list}</div>
             <button onClick={createProject}>Add project</button>
-        </h1>
+        </div>
     )
 }
-export default Create
+const mapStateToProps = (state, ownProps) => {
+    return {
+        projects: state.projects
+    }
+}
+
+export default connect(mapStateToProps)(Create)
