@@ -10,7 +10,7 @@ export function init(db: Database) {
     collectionStatement = database.prepare('SELECT id, name FROM project');
 }
 
-export function get(id: string) {
+export function get() {
 
 }
 export function getCollection(){

@@ -11,32 +11,46 @@
   },
   "dependencies": {
     "better-sqlite3": "^7.0.1",
-    "react-hook-form": "^5.7.2"
+    "datauri": "^3.0.0",
+    "postcss-loader": "^3.0.0",
+    "react-hook-form": "^5.7.2",
+    "tailwindcss": "^1.4.6",
+    "typeface-jetbrains-mono": "^1.0.5"
   },
   "devDependencies": {
-    "node-sass": "^4.14.1",
-    "@types/node": "14.0.1",
-    "bulma": "^0.8.2",
-    "source-map-support": "^0.5.19",
-    "sass-loader": "^8.0.2",
     "@babel/preset-react": "^7.9.4",
     "@types/better-sqlite3": "^5.4.0",
+    "@types/node": "12.12.42",
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/uuid": "^7.0.3",
+    "bulma": "^0.8.2",
     "electron": "8.3.0",
     "electron-builder": "^22.6.0",
     "electron-rebuild": "^1.11.0",
     "electron-webpack": "^2.8.2",
+    "electron-webpack-eslint": "^6.0.0",
     "electron-webpack-ts": "^4.0.1",
+    "eslint": "^7.0.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.2",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
+    "sass-loader": "^8.0.2",
+    "source-map-support": "^0.5.19",
     "typescript": "^3.9.2",
     "uuid": "^8.0.0",
     "webpack": "~4.43.0"
+  },
+  "electronWebpack": {
+    "renderer": {
+      "webpackConfig": "webpack.renderer.additions.js"
+    }
   }
 }

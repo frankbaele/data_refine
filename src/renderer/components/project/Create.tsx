@@ -1,41 +1,40 @@
-import React, {Fragment, useEffect} from "react";
-import {ipcRenderer} from "electron";
+import React from "react";
 import {connect} from "react-redux";
-import {store} from "../../store";
+import {useForm} from "react-hook-form";
 
-function createProject() {
-    ipcRenderer.send('project', {
-        type: 'create',
-        payload: {
-            name: 'test'
-        }
-    })
-}
+type Inputs = {
+    example: string,
+    exampleRequired: string,
+};
 
-const Create = ({projects}) => {
-    useEffect(() => {
-        ipcRenderer.send('projects', {
-            type: 'load',
-            payload: {}
-        })
-    }, []);
-    let list;
-    if (Array.isArray(projects)) {
-        list = projects.map((project) =>
-            <li key={project.id}>{project.name}</li>
-        );
-    }
+
+const Create = () => {
+    const { register, handleSubmit, watch, errors } = useForm<Inputs>();
+    const onSubmit = data => console.log(data);
+
+    console.log(watch("example")) // watch input value by passing the name of it
+
+    console.log(watch("example")); // watch input value by passing the name of it
     return (
-        <div>
-            <div>{list}</div>
-            <button onClick={createProject}>Add project</button>
-        </div>
-    )
+        <form onSubmit={handleSubmit(onSubmit)}>
+            {/* register your input into the hook by invoking the "register" function */}
+            <input name="example" defaultValue="test" ref={register}/>
+
+            {/* include validation with required or other standard HTML validation rules */}
+            <input name="exampleRequired" ref={register({required: true})}/>
+            {/* errors will return when field validation fails  */}
+            {errors.exampleRequired && <span>This field is required</span>}
+
+            <input type="submit"/>
+        </form>
+    );
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = () => {
+    return {}
+}
+const mapDispatchToProps = dispatch => {
     return {
-        projects: state.projects
+        createProject: (payload: {}) => dispatch({type: 'project.create', payload}),
     }
 }
-
-export default connect(mapStateToProps)(Create)
+export default connect(mapStateToProps, mapDispatchToProps)(Create)

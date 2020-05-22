@@ -1,16 +1,25 @@
-
 import React from 'react'
+import path from 'path'
+import datauri from 'datauri/sync'
 import {NavLink} from "react-router-dom";
-
+const pathToAsset = path.join(__static, '/logo-full.png')
+const file = datauri(pathToAsset);
 const App = () => {
+
     return (
-        <div>
-            <h1>
-                Data refiner
-                <NavLink to="/project/create" activeClassName="selected">
-                    To project create
-                </NavLink>
-            </h1>
+        <div className="flex h-screen ">
+            <div className="m-auto max-w-md rounded">
+                <img className="w-full" src={file.content}></img>
+                <div className="space-y-3">
+                    <NavLink className="btn" to="/project/create">
+                        Create a new project
+                    </NavLink>
+                    <NavLink className="btn" to="/project/open">
+                        Open existing project
+                    </NavLink>
+                </div>
+
+            </div>
         </div>
     )
 }

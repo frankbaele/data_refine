@@ -5,6 +5,7 @@ import * as path from 'path'
 import {format as formatUrl} from 'url'
 import {init} from "./database";
 import {listen} from './listeners/index';
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
@@ -13,7 +14,11 @@ let mainWindow: BrowserWindow;
 app.allowRendererProcessReuse = true;
 
 function createMainWindow() {
-    const window = new BrowserWindow({webPreferences: {nodeIntegration: true}})
+    console.log(path.join(__dirname, 'assets/icon.png'));
+    const window = new BrowserWindow({
+        webPreferences: {nodeIntegration: true},
+        icon: path.join(__dirname, 'assets/icon.png')
+    })
 
     if (isDevelopment) {
         window.webContents.openDevTools()
@@ -41,9 +46,21 @@ function createMainWindow() {
             label: 'Menu',
             submenu: [
                 {
-                    label:'Create project',
-                    click:()=>{
+                    label: 'Home',
+                    click: () => {
+                        goToRoute('/');
+                    }
+                },
+                {
+                    label: 'New project',
+                    click: () => {
                         goToRoute('/project/create');
+                    }
+                },
+                {
+                    label: 'Open project',
+                    click: () => {
+                        goToRoute('/project/open');
                     }
                 },
             ]
@@ -52,12 +69,14 @@ function createMainWindow() {
     Menu.setApplicationMenu(menu);
     return window
 }
-function goToRoute(url: string){
-    mainWindow.webContents.send('store',{
-        type:'router.push',
-        payload:url
+
+function goToRoute(url: string) {
+    mainWindow.webContents.send('store', {
+        type: 'router.push',
+        payload: url
     })
 }
+
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
     // on macOS it is common for applications to stay open until the user explicitly quits
@@ -66,7 +85,7 @@ app.on('window-all-closed', () => {
     }
 })
 
-app.on('activate', async() => {
+app.on('activate', async () => {
     // on macOS it is common to re-create a window even after all windows have been closed
     // @ts-ignore
     if (mainWindow === null) {
