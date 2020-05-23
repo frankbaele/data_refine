@@ -15,5 +15,9 @@ module.exports = {
     },
     globals: {
         __static: true
-    }
+    },
+    "settings": {
+        "pragma": "React",
+        "version": "detect",
+    },
 }

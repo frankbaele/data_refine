@@ -17,7 +17,7 @@ export function getCollection(){
     return collectionStatement.all();
 }
 
-export function create(name: string) {
+export function create({name}) {
     insertStatement.run({
         id: uuidv4(),
         name

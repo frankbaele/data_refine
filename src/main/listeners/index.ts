@@ -4,11 +4,10 @@ export function listen(mainWindow){
     ipcMain.on('project', (event, arg) => {
 
         if(arg.type ==='create'){
-            create(arg.payload.name);
-            const collection = getCollection();
+            create(arg.payload);
             mainWindow.send('store', {
-                type:'projects.loaded',
-                payload: collection
+                type: 'router.push',
+                payload: '/'
             })
         }
 

@@ -1,34 +1,78 @@
-import React from "react";
+/* eslint-disable */
+import React, {useEffect} from "react";
+import {useFormik} from 'formik';
 import {connect} from "react-redux";
-import {useForm} from "react-hook-form";
+import {remote} from 'electron';
 
-type Inputs = {
-    example: string,
-    exampleRequired: string,
+const validate = values => {
+    const errors = {};
+    if (!values.name) {
+        errors.name = 'Required';
+    }
+    if (!values.file) {
+        errors.file = 'Required';
+    }
+    return errors;
 };
 
 
-const Create = () => {
-    const { register, handleSubmit, watch, errors } = useForm<Inputs>();
-    const onSubmit = data => console.log(data);
+function Create({createProject}) {
 
-    console.log(watch("example")) // watch input value by passing the name of it
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            file: '',
+        },
+        validate,
+        onSubmit: values => {
+            createProject(values)
+        },
+    });
 
-    console.log(watch("example")); // watch input value by passing the name of it
+    function selectFile() {
+        remote.dialog.showOpenDialog(
+            {
+                filters: [
+                    {name: 'csv', extensions: ['csv']}
+                ]
+            }).then(result => {
+            if (!result.canceled) {
+                formik.setFieldValue('file', result.filePaths[0]);
+            }
+
+
+        }).catch(err => {
+            console.log(err)
+        })
+    }
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {/* register your input into the hook by invoking the "register" function */}
-            <input name="example" defaultValue="test" ref={register}/>
+        <div className="flex h-screen ">
+            <form className="center-form" onSubmit={formik.handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="email">Name:</label>
+                    <input
+                        id="name"
+                        name="name"
+                        onChange={formik.handleChange}
+                        value={formik.values.name}
+                    />
+                </div>
+                <div className="file-upload">
+                    <div className="select">
+                        <button onClick={selectFile}>Select file</button>
+                    </div>
+                    <div className="path">{formik.values.file}</div>
 
-            {/* include validation with required or other standard HTML validation rules */}
-            <input name="exampleRequired" ref={register({required: true})}/>
-            {/* errors will return when field validation fails  */}
-            {errors.exampleRequired && <span>This field is required</span>}
+                </div>
 
-            <input type="submit"/>
-        </form>
+                <button className="btn" type="submit">Submit</button>
+            </form>
+        </div>
+
     );
 }
+
 const mapStateToProps = () => {
     return {}
 }
