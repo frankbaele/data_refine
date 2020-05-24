@@ -20,8 +20,6 @@ export function getCollection(){
 }
 
 export function create({name, file}) {
-    console.log(name)
-    console.log(file)
     insertStatement.run({
         id: uuidv4(),
         name,

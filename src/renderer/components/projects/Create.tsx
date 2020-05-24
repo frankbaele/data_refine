@@ -59,7 +59,7 @@ function Create(props: any) {
                 </div>
                 <div className="file-upload">
                     <div className="select">
-                        <button onClick={selectFile}>Select file</button>
+                        <button onClick={selectFile}>Select fileRows</button>
                     </div>
                     <div className="path">{formik.values.file}</div>
 

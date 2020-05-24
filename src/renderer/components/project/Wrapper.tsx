@@ -4,19 +4,29 @@ import {store} from "../../store";
 import {Route, Router} from "react-router-dom";
 import history from "../../lib/history";
 import Import from "./Import";
+import Detail from "./Detail";
 
 
 const Wrapper = (props: any) => {
     useEffect(() => {
         props.loadProject(props.match.params.id);
-    }, []);
+        // eslint-disable-next-line
+    }, [props.match.params.id]);
+
+    const routes = [];
+
+    if(!props.project.imported){
+        routes.push(<Route key="import" path="/" component={Import} />)
+    } else {
+        routes.push(<Route key="detail" path="/" component={Detail} />)
+    }
+
     return (
         <Provider store={store}>
-
             <div>
                 {props.project.name}
                 <Router history={history}>
-                    <Route path="/import" component={Import} />
+                    {routes}
                 </Router>
             </div>
         </Provider>

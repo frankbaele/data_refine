@@ -1,3 +1,5 @@
+import {readRows} from "../file";
+
 const { ipcMain } = require('electron')
 import {create, get, getCollection} from "../database/models/Project";
 export function listen(mainWindow: any){
@@ -16,7 +18,16 @@ export function listen(mainWindow: any){
                 type:'project.loaded',
                 payload: item
             })
+        }
+    })
+    ipcMain.on('file', async (event, arg) => {
 
+        if(arg.type ==='rows.load'){
+            const collection = await readRows(arg.payload.type, arg.payload.file, arg.payload.rows, arg.payload.options);
+            mainWindow.send('store', {
+                type:'file.rows.loaded',
+                payload: collection
+            })
         }
     })
     ipcMain.on('projects', (event, arg) => {

@@ -6,6 +6,7 @@ const List = (props: any) => {
 
     useEffect(() => {
         props.loadProjects();
+        // eslint-disable-next-line
     }, []);
 
     let list;
@@ -16,7 +17,6 @@ const List = (props: any) => {
             </NavLink>
         );
     }
-
 
     return (
         <div className="flex h-screen ">

@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "better-sqlite3": "^7.0.1",
-    "datauri": "^3.0.0"
+    "csv-parse": "^4.10.1",
+    "datauri": "^3.0.0",
+    "react-table": "^7.1.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.9.4",
@@ -50,7 +52,8 @@
   },
   "electronWebpack": {
     "renderer": {
-      "webpackConfig": "webpack.renderer.additions.js"
+      "webpackConfig": "webpack.renderer.additions.js",
+      "template": "src/renderer/index.html"
     }
   }
 }
