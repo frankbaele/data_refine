@@ -8,6 +8,14 @@ export function project (state = {}, action:any) {
             payload: action.payload
         })
     }
-
+    if(action.type === 'project.load'){
+        ipcRenderer.send('project', {
+            type: 'load',
+            payload: action.payload
+        })
+    }
+    if(action.type === 'project.loaded'){
+        return action.payload;
+    }
     return state;
 }

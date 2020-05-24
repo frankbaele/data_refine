@@ -1,11 +1,10 @@
-/* eslint-disable */
-import React, {useEffect} from "react";
-import {useFormik} from 'formik';
+import React from "react";
+import {FormikValues, useFormik} from 'formik';
 import {connect} from "react-redux";
 import {remote} from 'electron';
 
-const validate = values => {
-    const errors = {};
+const validate = (values: FormikValues) => {
+    const errors: any = {};
     if (!values.name) {
         errors.name = 'Required';
     }
@@ -16,7 +15,7 @@ const validate = values => {
 };
 
 
-function Create({createProject}) {
+function Create(props: any) {
 
     const formik = useFormik({
         initialValues: {
@@ -25,7 +24,7 @@ function Create({createProject}) {
         },
         validate,
         onSubmit: values => {
-            createProject(values)
+            props.createProject(values)
         },
     });
 
@@ -76,7 +75,7 @@ function Create({createProject}) {
 const mapStateToProps = () => {
     return {}
 }
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any) => {
     return {
         createProject: (payload: {}) => dispatch({type: 'project.create', payload}),
     }

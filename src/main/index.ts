@@ -14,7 +14,6 @@ let mainWindow: BrowserWindow;
 app.allowRendererProcessReuse = true;
 
 function createMainWindow() {
-    console.log(path.join(__dirname, 'assets/icon.png'));
     const window = new BrowserWindow({
         webPreferences: {nodeIntegration: true},
         icon: path.join(__dirname, 'assets/icon.png')
@@ -54,13 +53,13 @@ function createMainWindow() {
                 {
                     label: 'New project',
                     click: () => {
-                        goToRoute('/project/create');
+                        goToRoute('/projects/create');
                     }
                 },
                 {
                     label: 'Open project',
                     click: () => {
-                        goToRoute('/project/open');
+                        goToRoute('/projects/list');
                     }
                 },
             ]

@@ -7,11 +7,6 @@ import reducer from './reducers'
 export const store = createStore(
     reducer,
     {
-        projects:[
-            {
-                id: 'testId',
-                name: 'testName'
-            }
-        ]
+        projects:[]
     }
 );
